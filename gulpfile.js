@@ -48,7 +48,7 @@ var settings = {
 /* scss tasks */
 // command:  gulp sass
 gulp.task('sass', function() {
-    return gulp.src(settings.srcPath + '/scss/*.scss')
+    return gulp.src(settings.srcPath + '/scss/**/*.scss')
         .pipe($.sourcemaps.init()) // sourcemaps init
         .pipe($.sass({
             /** outputstyle: default: nested  nested/expanded/compact/compressed
@@ -59,7 +59,7 @@ gulp.task('sass', function() {
              */
             outputStyle: 'compressed'
         }).on('error', $.sass.logError))
-        .pipe($.sourcemaps.write()) // output sourcemaps
+        .pipe($.sourcemaps.write('/tmp/')) // output sourcemaps
         .pipe(gulp.dest(settings.srcPath + '/css/'));
 });
 
@@ -84,15 +84,34 @@ gulp.task('uglify', function() {
 /* images tasks */
 // sprite images
 // command:  gulp sprite
-require('./tasks/sprite')(gulp, $, settings);
+// gulp.task('sprite', function() {
+//     return gulp.src(settings.srcPath + 'img/sprite/*.png')
+//         .pipe($.spritesmith({
+//             imgName: 'sprite.png',
+//             cssName: 'sprite.css',
+//             cssTemplate: ''
+//         }))
+//         .pipe(gulp.dest('path/to/output/'));
+// });
+gulp.task('sprite', function() {
+    var spriteData = gulp.src(settings.srcPath + '/img/sprite/*.png')
+        .pipe($.spritesmith({
+            imgName: 'sprite.png',
+            cssName: '_sprite.scss',
+            imgPath: '',
+            cssTemplate: 'sprite.handlebars'
+        }));
+    spriteData.img.pipe(gulp.dest(settings.imgPath));
+    spriteData.css.pipe(gulp.dest(settings.srcPath + '/scss/'));
+});
 // imagemin
 // command:  gulp imagemin
-gulp.task('copyImg', function() {
+gulp.task('copyimg', function() {
     return gulp.src(settings.srcPath + '/img/*.*')
         .pipe(gulp.dest(settings.imgPath));
 });
 
-gulp.task('imagemin', ['copyImg'], function() {
+gulp.task('imagemin', ['copyimg'], function() {
     return gulp.src(settings.imgPath + '/**/*.*')
         .pipe($.imagemin({
             optimizationLevel: settings.pngLevel, //type：Number  default：3  range：0-7
@@ -104,8 +123,8 @@ gulp.task('imagemin', ['copyImg'], function() {
 });
 
 
-// command:  gulp cleanDist
-gulp.task('cleanDist', function() {
+// command:  gulp cleandist
+gulp.task('cleandist', function() {
     return gulp.src(settings.distPath + '/', {
             read: false
         })
@@ -138,7 +157,7 @@ gulp.task('browsersync', function() {
 });
 
 // require
-require('./tasks/require')(gulp, $, settings);
+//require('./tasks/require')(gulp, $, settings);
 
 
 // tasks
@@ -150,9 +169,10 @@ gulp.task('img', [
 // just watch js & scss
 gulp.task('watch', function() {
     // 公用SCSS
-    gulp.watch(settings.srcPath + '/**/*.scss', 'sass');
+    // 公用SCSS
+    gulp.watch(settings.srcPath + '/scss/**/*.scss', ['sass']);
     // jshint
-    gulp.watch(settings.srcPath + '/js/**/*.js', 'jshint');
+    gulp.watch([settings.srcPath + '/js/**/*.js'], ['jshint']);
 });
 // watch & browsersunc
 gulp.task('default', [
@@ -160,20 +180,15 @@ gulp.task('default', [
     'watch'
 ]);
 
-// build to dist
-gulp.task('build', ['cleanDist'], function() {
-    // gulp.run('minifycss', 'rjs');
-    gulp.run('imagemin');
+// copy to dist
+gulp.task('copycss', function() {
+    return gulp.src(settings.srcPath + '/css/**/*.css')
+        .pipe(gulp.dest(settings.distPath + '/css/'));
 });
 
-
-
-// preview dist floder
-gulp.task('serve', [
-    'browsersync:dist'
-]);
-//
-//// clean demo
-//gulp.task('clean-demo', [
-//    'browsersync:dist'
-//]);
+// build to dist
+gulp.task('build', ['cleanDist'], function() {
+    gulp.run('copycss');
+    gulp.run('uglify');
+    gulp.run('imagemin');
+});

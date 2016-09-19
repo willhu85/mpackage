@@ -1,38 +1,41 @@
 {
-  "name": "generator-mpackage",
-  "version": "0.0.1",
-  "description": "a simple web scaffold tools",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/willhu85/mpackage.git"
-  },
-  "keywords": [
-    "mpackage",
-    "webapp",
-    "gulp",
-    "scaffold"
-  ],
-  "author": "willhu",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/willhu85/mpackage/issues"
-  },
-  "homepage": "https://github.com/willhu85/mpackage#readme",
-  "devDependencies": {
-    "browser-sync": "^2.15.0",
-    "gulp-clean": "^0.3.2",
-    "gulp-imagemin": "^3.0.3",
-    "gulp-jshint": "^2.0.1",
-    "gulp-load-plugins": "^1.2.4",
-    "gulp-sass": "^2.3.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^2.0.0",
-    "gulp.spritesmith": "^6.2.1",
-    "jshint": "^2.9.3",
-    "run-sequence": "^1.2.2"
-  }
+    "name": "mpackage",
+    "version": "0.0.1",
+    "description": "a simple web scaffold tools",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/willhu85/mpackage.git"
+    },
+    "keywords": [
+        "mpackage",
+        "webapp",
+        "gulp",
+        "scaffold"
+    ],
+    "author": "willhu",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/willhu85/mpackage/issues"
+    },
+    "homepage": "https://github.com/willhu85/mpackage#readme",
+    "dependencies": {
+        "gulp": "^3.9.1"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.15.0",
+        "gulp-clean": "^0.3.2",
+        "gulp-imagemin": "^3.0.3",
+        "gulp-jshint": "^2.0.1",
+        "gulp-load-plugins": "^1.2.4",
+        "gulp-sass": "^2.3.2",
+        "gulp-sourcemaps": "^1.6.0",
+        "gulp-uglify": "^2.0.0",
+        "gulp.spritesmith": "^6.2.1",
+        "jshint": "^2.9.3",
+        "run-sequence": "^1.2.2"
+    }
 }

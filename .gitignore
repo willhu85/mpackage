@@ -6,3 +6,4 @@ sass-cahce/
 .idea/
 .git/
 /.DS_Store
+tmp/
